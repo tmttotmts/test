@@ -1,0 +1,438 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Zen Kaku Gothic New', 'Noto Sans JP', sans-serif;
+    color: #2f3a3e;
+    min-width: 1400px;
+}
+
+/* Page Container */
+.page-container {
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(90deg, rgb(244, 251, 239) 0%, rgb(248, 253, 244) 39.904%, rgb(246, 248, 233) 69.712%, rgb(242, 247, 227) 84.856%, rgb(238, 246, 220) 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+/* Background Decorations */
+.bg-decoration {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.05;
+    pointer-events: none;
+}
+
+.bg-circle {
+    position: absolute;
+    left: -561px;
+    top: -902px;
+    width: 1710px;
+    height: 1710px;
+    background: radial-gradient(circle at center, rgba(255, 251, 234, 0.7) 0%, rgba(255, 246, 216, 0.35) 55%, rgba(253, 240, 185, 0) 100%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+/* Navigation Bar */
+.navigation-bar {
+    width: 100%;
+    max-width: 1280px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 32px;
+    position: relative;
+    z-index: 10;
+}
+
+.container-logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    color: #1e293b;
+    letter-spacing: -0.6px;
+    line-height: 32px;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.nav-link {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: #4a5568;
+    text-decoration: none;
+    line-height: 24px;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #2d3748;
+}
+
+.btn-contact {
+    background-color: #4f6f5f;
+    color: #f8faf4;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 1.6px;
+    padding: 16px 40px;
+    border: 1px solid #f8faf4;
+    border-radius: 9999px;
+    cursor: pointer;
+    box-shadow: 4px 4px 10px 0px rgba(203, 212, 190, 0.4);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    line-height: 28px;
+}
+
+.btn-contact:hover {
+    transform: translateY(-2px);
+    box-shadow: 4px 6px 12px 0px rgba(203, 212, 190, 0.6);
+}
+
+/* Hero Section */
+.hero-section {
+    width: 100%;
+    max-width: 1280px;
+    display: flex;
+    align-items: center;
+    gap: 48px;
+    padding: 64px 32px;
+    position: relative;
+    z-index: 5;
+}
+
+.hero-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+    min-width: 0;
+}
+
+.hero-heading {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.heading-line {
+    background: linear-gradient(to right, #32483e, #3a5046);
+    padding: 10px 20px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+}
+
+
+.heading-text {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 700;
+    font-size: 48px;
+    color: white;
+    letter-spacing: 4.8px;
+    line-height: 75px;
+    white-space: pre-wrap;
+}
+
+/* =========================
+Hero Heading Animation (trigger: .is-effect)
+========================= */
+
+/* 背景アニメ用（元のbackgroundは疑似要素へ移す） */
+.heading-line{
+  position: relative;
+  overflow: hidden;
+
+  /* 既存 */
+  padding: 10px 20px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+
+  background: none; /* ← 元の linear-gradient は消す */
+}
+
+/* 背景は疑似要素 */
+.heading-line::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: linear-gradient(to right, #32483e, #3a5046);
+  transform: translateX(-102%);
+  z-index: 0;
+}
+
+/* 画面内に入ったら（scrollEffectが is-effect を付与） */
+.hero-heading.is-effect .heading-line::before{
+  animation: bg-reveal 0.65s cubic-bezier(.2,.8,.2,1) forwards;
+}
+
+/* 2行目は背景を少し遅らせる */
+.hero-heading.is-effect .heading-line:nth-child(2)::before{
+  animation-delay: 0.18s;
+}
+
+@keyframes bg-reveal{
+  to{ transform: translateX(0); }
+}
+
+/* テキストは常に前面に */
+.heading-text{
+  position: relative;
+  z-index: 1;
+}
+
+/* 分割後の1文字 */
+.heading-text .char{
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(14px) scale(0.98);
+}
+
+/* 画面内に入ったら 1文字ずつバウンド */
+.hero-heading.is-effect .heading-text .char{
+  animation: char-bounce 0.62s cubic-bezier(.2, .9, .25, 1.2) forwards;
+  animation-delay: calc(var(--i) * 0.035s);
+}
+
+/* 2行目は文字も少し遅らせる */
+.hero-heading.is-effect .heading-line:nth-child(2) .heading-text .char{
+  animation-delay: calc(0.22s + (var(--i) * 0.035s));
+}
+
+@keyframes char-bounce{
+  0%   { opacity: 0; transform: translateY(18px) scale(0.96); }
+  55%  { opacity: 1; transform: translateY(-6px) scale(1.02); }
+  75%  { opacity: 1; transform: translateY(2px) scale(0.995); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* 動き軽減（scrollEffectが即 is-effect を付けても、ここで無効化される） */
+@media (prefers-reduced-motion: reduce){
+  .hero-heading.is-effect .heading-line::before,
+  .hero-heading.is-effect .heading-text .char{
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+
+.hero-detail {
+    width: 100%;
+}
+
+.hero-detail p {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    color: #2f3a3e;
+    letter-spacing: 3.6px;
+    line-height: 41px;
+}
+
+.btn-contact-large {
+    background-color: #4f6f5f;
+    color: #f8faf4;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 700;
+    font-size: 21px;
+    letter-spacing: 2.1px;
+    padding: 16px 40px;
+    border: 1px solid #f8faf4;
+    border-radius: 9999px;
+    cursor: pointer;
+    box-shadow: 4px 4px 10px 0px rgba(203, 212, 190, 0.4);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    width: 248px;
+    height: 75px;
+    line-height: 28px;
+}
+
+.btn-contact-large:hover {
+    transform: translateY(-2px);
+    box-shadow: 4px 6px 12px 0px rgba(203, 212, 190, 0.6);
+}
+
+.hero-image {
+    width: 670px;
+    height: 607px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Services Section */
+.services-section {
+    width: 100%;
+    max-width: 1280px;
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
+    padding: 80px 32px;
+    position: relative;
+    z-index: 5;
+}
+
+.section-heading {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.section-heading h2 {
+    font-family: 'Quicksand', 'Noto Sans JP', sans-serif;
+    font-weight: 700;
+    font-size: 30px;
+    color: #2d3748;
+    letter-spacing: 3px;
+    line-height: 36px;
+    text-align: center;
+}
+
+.services-placeholder {
+    height: 308px;
+    width: 100%;
+}
+
+/* Footer */
+.footer {
+    width: 100%;
+    max-width: 1280px;
+    padding: 40px 32px;
+    border-top: 1px solid rgba(226, 232, 240, 0.5);
+    position: relative;
+    z-index: 5;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.footer-content p {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: #94a3b8;
+    text-align: center;
+    line-height: 20px;
+}
+
+.footer-brand {
+    font-weight: 700;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .hero-section {
+        flex-direction: column;
+        gap: 32px;
+    }
+    
+    .hero-image {
+        width: 100%;
+        max-width: 500px;
+        height: auto;
+        aspect-ratio: 670 / 607;
+    }
+    
+    .heading-line {
+        width: 100% !important;
+        max-width: 100%;
+        display: inline-block;
+    }
+    
+    .heading-text {
+        font-size: 36px;
+    }
+}
+
+@media (max-width: 768px) {
+    .navigation-bar {
+        flex-wrap: wrap;
+        gap: 16px;
+        padding: 16px;
+    }
+    
+    .nav-links {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+    
+    .btn-contact {
+        padding: 12px 24px;
+        font-size: 14px;
+    }
+    
+    .hero-section {
+        padding: 32px 16px;
+    }
+    
+    .heading-text {
+        font-size: 28px;
+        line-height: 50px;
+        letter-spacing: 2.8px;
+    }
+    
+    .heading-line {
+        height: auto;
+        min-height: 60px;
+        padding: 8px 16px;
+    }
+    
+    .hero-detail p {
+        font-size: 18px;
+        line-height: 32px;
+        letter-spacing: 2px;
+    }
+    
+    .btn-contact-large {
+        width: 100%;
+        max-width: 248px;
+        font-size: 18px;
+    }
+    
+    .services-section {
+        padding: 40px 16px;
+    }
+    
+    .section-heading h2 {
+        font-size: 24px;
+    }
+}
